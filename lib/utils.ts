@@ -1,5 +1,5 @@
 import { decode64, encode64 } from './base64';
-import * as sjcl from './sjcl/sjcl';
+import { sjcl } from './sjcl/sjcl';
 
 function toUint8Array(arr: sjcl.BitArray): Uint8Array {
   return new Uint8Array(sjcl.codec.arrayBuffer.fromBits(arr, false));

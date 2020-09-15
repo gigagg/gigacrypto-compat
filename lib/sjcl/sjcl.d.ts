@@ -1,5 +1,4 @@
-export = sjcl;
-export as namespace sjcl;
+export { sjcl };
 
 declare namespace sjcl {
     export var bitArray: BitArrayStatic;
