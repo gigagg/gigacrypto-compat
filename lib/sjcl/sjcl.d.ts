@@ -1,7 +1,7 @@
-export { sjcl };
+export = sjcl;
+export as namespace sjcl;
 
 declare namespace sjcl {
-    export var bitArray: BitArrayStatic;
     export var codec: SjclCodecs;
     export var hash: SjclHashes;
     export var exception: SjclExceptions;
