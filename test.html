@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>Test</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./node_modules/mocha/mocha.css" />
+    <script src="./node_modules/mocha/mocha.js"></script>
+    <!-- <script src="./node_modules/chai/chai.js"></script> -->
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script type="module">
+      import { expect } from './node_modules/chai/chai.js';
+      import { pbkdf2 } from './dist/lib/utils.js';
+
+      describe('apply pbkdf2', () => {
+          it('hash a predefined text', () => {
+              const saltStr = 'FLOhgPcpK+IzLOqqzUw2Dbe3o47IsDitc2DBQNiU0i8=';
+              const encoder = new TextEncoder();
+              const salt = encoder.encode(saltStr);
+              const result = pbkdf2('gigatribe', salt);
+              expect(result).equal(7);
+          });
+      });
+
+      mocha.run();
+    </script>
+  </body>
+</html>

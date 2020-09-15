@@ -1,0 +1,40 @@
+{
+  "name": "gigacrypto-compat",
+  "version": "1.0.14",
+  "description": "This package does the encrypting/generation of key for GiGa.gg file encryption",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "npm run build && mocha --require @babel/register --require ./tests/index.js dist/tests/**/*.test.js",
+    "build": "tsc && copyfiles ./lib/jsbn/RSAKey* ./lib/sjcl/sjcl*  ./dist/",
+    "lint": "tslint --project .",
+    "prepare": "npm run build",
+    "postversion": "git push && git push --tags"
+  },
+  "keywords": [
+    "GiGa.gg"
+  ],
+  "author": "t.guyard@gigatribe.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/register": "^7.7.4",
+    "@peculiar/webcrypto": "^1.1.1",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "babel-polyfill": "^6.26.0",
+    "buffer": "^5.6.0",
+    "chai": "^4.2.0",
+    "copyfiles": "^2.3.0",
+    "mocha": "^6.2.3",
+    "node-webcrypto-ossl": "^2.1.0",
+    "nyc": "^15.1.0",
+    "text-encoding": "^0.7.0",
+    "ts-node": "^8.10.2",
+    "tslint": "^5.20.0",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {}
+}
