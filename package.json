@@ -1,6 +1,6 @@
 {
   "name": "gigacrypto-compat",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "This package does the encrypting/generation of key for GiGa.gg file encryption",
   "main": "dist/index.js",
   "scripts": {
