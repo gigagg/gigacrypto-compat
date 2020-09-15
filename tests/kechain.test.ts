@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { Keychain5 } from '../lib/keychain';
+import { Keychain } from '../lib/keychain';
 import { LockedKeychain } from '../lib/lockedKeychain';
 
-describe('Crypto::Keychain5', () => {
+describe('Crypto::Keychain', () => {
   const importableKeychain: LockedKeychain = {
     nodeKey:
       'Am0TSBwizinOPkiECkXY6yWZtZae0xsKU1xSTBjpYTq/1UNVD2ICDicw8JgtYPHqmkdP4bcOCbdPQuGUQ/2mi3oyLsHHcgM2zluCoS8CkzDh7Q9C7yrAspUhGhgHgsAzIxEjbTa4iFeHwez41JGkEC+ucwboE089VlJkhsOxasI=',
@@ -38,22 +38,22 @@ describe('Crypto::Keychain5', () => {
   };
 
   it('should generate a keychain', async () => {
-    const keychain = await Keychain5.generate('gigatribe');
+    const keychain = await Keychain.generate('gigatribe');
     expect(keychain).not.equal(null);
   });
 
   it('should import a keychain', async () => {
-    const keychain = await Keychain5.import(importableKeychain, 'gigatribe');
+    const keychain = await Keychain.import(importableKeychain, 'gigatribe');
     expect(keychain).not.equal(null);
   });
 
   it('should import a keychain (2)', async () => {
-    const keychain = await Keychain5.import(importableKeychain2, '123456');
+    const keychain = await Keychain.import(importableKeychain2, '123456');
     expect(keychain).not.equal(null);
   });
 
   it('should export a keychain', async () => {
-    const keychain = await Keychain5.import(importableKeychain, 'gigatribe');
+    const keychain = await Keychain.import(importableKeychain, 'gigatribe');
     let exported = await keychain.export(true);
 
     expect(exported.rsaKeys.publicKey).equal(
@@ -93,9 +93,9 @@ describe('Crypto::Keychain5', () => {
   });
 
   it('should import a generated keychain', async () => {
-    const keychain = await Keychain5.generate('gigatribe');
+    const keychain = await Keychain.generate('gigatribe');
     const exp1 = await keychain.export(true);
-    const imported = await Keychain5.import(exp1, 'gigatribe');
+    const imported = await Keychain.import(exp1, 'gigatribe');
     const exported = await imported.export(true);
 
     expect(exported.rsaKeys.publicKey).equal(exp1.rsaKeys.publicKey);
@@ -114,27 +114,27 @@ describe('Crypto::Keychain5', () => {
   });
 
   it('should fail import when the password is wrong', async () => {
-    const keychain = await Keychain5.generate('gigatribe');
+    const keychain = await Keychain.generate('gigatribe');
     const exp1 = await keychain.export(false);
 
     try {
-      await Keychain5.import(exp1, 'wrong password');
+      await Keychain.import(exp1, 'wrong password');
       expect(true).equal(false);
     } catch (error) {}
   });
 
   it('should generate the login password correctly', async () => {
-    const keychain = await Keychain5.generate('azertyuiop');
+    const keychain = await Keychain.generate('azertyuiop');
     const lp = await keychain.calculateLoginPasswordCompat('mobiuser01');
     expect(lp).equal('Ju51bwKeziurk32HMdVx8g==');
   });
 
   it('should save and load a keychain', async () => {
-    const keychain = await Keychain5.generate('azertyuiop');
+    const keychain = await Keychain.generate('azertyuiop');
     const exp1 = await keychain.export();
     await keychain.storeInLocalStorage('item_id', 'SomeGenericPassword');
 
-    const loaded = await Keychain5.loadFromLocalStorage(
+    const loaded = await Keychain.loadFromLocalStorage(
       'item_id',
       'SomeGenericPassword'
     );
@@ -153,7 +153,7 @@ describe('Crypto::Keychain5', () => {
   });
 
   it('should be able to get the nodeKey', async () => {
-    const keychain = await Keychain5.import(importableKeychain, 'gigatribe');
+    const keychain = await Keychain.import(importableKeychain, 'gigatribe');
     expect(keychain).not.equal(null);
     expect(keychain.getUnencryptedNodeKey()).equal(
       '3iBVzCEwx7jNMB1DeaUiYP0lnX0ICCxtXG1vOCnKWrg='
@@ -161,18 +161,18 @@ describe('Crypto::Keychain5', () => {
   });
 
   it('should be able to change the password', async () => {
-    const keychain = await Keychain5.import(importableKeychain, 'gigatribe');
+    const keychain = await Keychain.import(importableKeychain, 'gigatribe');
     await keychain.changePassword('gigatribe', '123456');
     const exported = await keychain.export();
     expect(exported.rsaKeys.privateKey).not.equal(
       importableKeychain.rsaKeys.privateKey
     );
 
-    await Keychain5.import(exported, '123456');
+    await Keychain.import(exported, '123456');
   });
 
   it('should be able to calculate end encrypt a filekey', async () => {
-    const keychain = await Keychain5.import(importableKeychain, 'gigatribe');
+    const keychain = await Keychain.import(importableKeychain, 'gigatribe');
     const fkey = await keychain.aesEncryptWithNodeKey(
       '2zl8/2ADaRE6AGEIFFU/2d+G'
     );

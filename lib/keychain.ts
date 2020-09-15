@@ -9,7 +9,7 @@ import {
 } from './utils';
 import { RSAKey } from './jsbn/RSAKey';
 
-export class Keychain5 {
+export class Keychain {
   private readonly rsaLength = 1024;
   private readonly rsaExp = '10001';
   private readonly challengeData = 'dE9yL9kF6nU1zJ0fC4tQ6zY5lO2mN4hE';
@@ -31,7 +31,7 @@ export class Keychain5 {
   }
 
   public static async generate(password: string) {
-    const chain = new Keychain5(password);
+    const chain = new Keychain(password);
     await chain.doGenerate();
     return chain;
   }
@@ -39,8 +39,8 @@ export class Keychain5 {
   public static async import(
     k: LockedKeychain,
     password?: string,
-  ): Promise<Keychain5> {
-    const chain = new Keychain5(password || null);
+  ): Promise<Keychain> {
+    const chain = new Keychain(password || null);
     await chain.doImport(k);
     return chain;
   }
@@ -48,7 +48,7 @@ export class Keychain5 {
   public static async loadFromLocalStorage(
     itemKey: string,
     password: string
-  ): Promise<null | Keychain5> {
+  ): Promise<null | Keychain> {
     const item = localStorage.getItem(itemKey);
     if (item == null) {
       return null;
@@ -72,7 +72,7 @@ export class Keychain5 {
       );
 
       const rawJson = new TextDecoder().decode(decrypted);
-      return await Keychain5.import(JSON.parse(rawJson));
+      return await Keychain.import(JSON.parse(rawJson));
     } catch (error) {
       console.error('Error loading keychain from localStorage', error);
       return null;
